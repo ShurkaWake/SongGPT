@@ -77,7 +77,6 @@ exports.addSong = async (req, res) => {
                 return;
             })
     } catch (error) {
-        console.log(error)
         if (error.response) {
             res.status(error.response.status)
                 .send(error.response.data)
@@ -103,6 +102,15 @@ exports.getSongs = async (req, res) => {
     User.findById(req.user._id)
         .exec()
         .then((user) => {
+            let songs = []
+            const page = req.query.page;
+            const size = req.query.size;
+            if (page !== undefined && size !== undefined && +page == page && page > 0 && +size == size && size > 0){
+                res.status(200)
+                    .send(user.songs.slice((page - 1) * size, page * size))
+                return
+            }
+
             res.status(200)
                 .send(user.songs)
             return
@@ -183,9 +191,7 @@ exports.updateSong = async (req, res) => {
         .exec()
         .then((user) => {
             user.songs.find((value, index) => {
-                console.log(value._id)
                 if (value._id == id) {
-                    console.log(1)
                     song = value
                     song.text = req.body.text
                     user.save()
@@ -202,7 +208,6 @@ exports.updateSong = async (req, res) => {
             }
         })
         .catch((err) => {
-            console.log(err)
             res.status(400)
                 .send({
                     message: "Song with specified id not found"
