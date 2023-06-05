@@ -110,7 +110,8 @@ exports.getSongs = async (req, res) => {
                     .send(
                         {
                             list: user.songs.slice((page - 1) * size, page * size),
-                            pages: ((user.songs.length - user.songs.length % parseInt(size)) / parseInt(size)) + 1
+                            pages: ((user.songs.length - user.songs.length % parseInt(size)) / parseInt(size)) + 
+                               (user.songs.length % parseInt(size) > 0 ? 1 : 0) 
                         })
                 return
             }
