@@ -1,5 +1,14 @@
-<script setup>
+<script>
+import router from "@/router/router";
+import store from "@/store";
 
+export default {
+  mounted() {
+    if (!store.state.isAuth) {
+      router.push("/unauthorized")
+    }
+  }
+}
 </script>
 
 <template>
