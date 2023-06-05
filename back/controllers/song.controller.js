@@ -105,9 +105,13 @@ exports.getSongs = async (req, res) => {
             let songs = []
             const page = req.query.page;
             const size = req.query.size;
-            if (page !== undefined && size !== undefined && +page == page && page > 0 && +size == size && size > 0){
+            if (page !== undefined && size !== undefined && +page == page && page > 0 && +size == size && size > 0) {
                 res.status(200)
-                    .send(user.songs.slice((page - 1) * size, page * size))
+                    .send(
+                        {
+                            list: user.songs.slice((page - 1) * size, page * size),
+                            pages: ((user.songs.length - user.songs.length % parseInt(size)) / parseInt(size)) + 1
+                        })
                 return
             }
 
@@ -153,7 +157,7 @@ exports.deleteSong = async (req, res) => {
                     return true
                 }
             })
-            if (song === undefined){
+            if (song === undefined) {
                 throw new Error("Not Found")
             }
         })
@@ -175,7 +179,7 @@ exports.updateSong = async (req, res) => {
         return
     }
 
-    if (!req.body.text){
+    if (!req.body.text) {
         res.status(400)
             .send({
                 message: "You need to specify `text`"
@@ -202,8 +206,8 @@ exports.updateSong = async (req, res) => {
                         })
                     return true
                 }
-            })  
-            if (song === undefined){
+            })
+            if (song === undefined) {
                 throw new Error("Not Found")
             }
         })
@@ -240,7 +244,7 @@ exports.getSong = async (req, res) => {
                 }
             })
 
-            if (song === undefined){
+            if (song === undefined) {
                 throw new Error("Not Found")
             }
         })

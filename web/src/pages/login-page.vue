@@ -32,9 +32,9 @@ export default {
         return 'Password is required.'
       },
       value => {
-        if (value?.length > 6) return true
+        if (value?.length > 5) return true
 
-        return 'Password must be at least 10 characters.'
+        return 'Password must be at least 6 characters.'
       },
     ]
   }),
@@ -51,8 +51,12 @@ export default {
       if (!results) {
         return
       }
-
-      store.commit('setJwtToken', results.accessToken, results.user)
+      console.log(results.user)
+      store.commit('setJwtToken', {
+        token: results.accessToken,
+        user: results.user
+      })
+      axios.defaults.headers.common['Authorization'] = `JWT ${results.accessToken}`;
       await router.push("/")
     },
 
@@ -88,25 +92,37 @@ export default {
           <v-text-field
               v-model="email"
               :rules="emailRules"
-              color="teal-darken-3"
+              color="deep-purple-darken-1"
               label="Email"
               required>
           </v-text-field>
           <v-text-field
               v-model="password"
-              color="teal-darken-3"
+              color="deep-purple-darken-1"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :rules="passwordRules"
               :type="show ? 'text' : 'password'"
               label="Password"
               @click:append="show = !show">
           </v-text-field>
-          <v-btn
-              :loading="loading"
-              @click="submit"
-              type="submit"
-              text="Log In">
-          </v-btn>
+          <v-container
+              class="d-flex justify-end">
+            <router-link to="/register">
+              <v-btn
+                  class="mr-6"
+                  color="deep-purple-darken-1"
+                  variant="text"
+                  text="Sign Up">
+              </v-btn>
+            </router-link>
+            <v-btn
+                :loading="loading"
+                @click="submit"
+                color="deep-purple-darken-1"
+                type="submit"
+                text="Log In">
+            </v-btn>
+          </v-container>
         </v-form>
       </v-card>
     </v-container>

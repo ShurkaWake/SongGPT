@@ -1,6 +1,5 @@
 <script>
 import axios from "axios";
-import store from "@/store/index"
 import router from "@/router/router";
 
 export default {
@@ -12,6 +11,15 @@ export default {
     loading: false,
     timeout: null,
     error: '',
+    isError: false,
+    fullName: '',
+    fullNameRules: [
+      value => {
+        if (value) return true
+
+        return 'Full name is required.'
+      },
+    ],
     email: '',
     emailRules: [
       value => {
@@ -53,6 +61,10 @@ export default {
     ]
   }),
   methods: {
+    moveToLogin() {
+      router.push('/login')
+    },
+
     matchingPasswords() {
       if (this.password === undefined || this.repeatPassword === undefined) {
         return 'Passwords must be the same'
@@ -66,28 +78,24 @@ export default {
         this.loading = false;
         return;
       }
-      const results = await this.requestApi()
+      await this.requestApi()
       this.loading = false
-
-      if (!results) {
-        return
-      }
-
-      store.commit('setJwtToken', results.accessToken, results.user)
-      await router.push("/")
     },
 
     async requestApi() {
       try {
         const response = await axios.post('https://song-gpt-nm46.onrender.com/register/', {
+          fullName: this.fullName,
           email: this.email,
           password: this.password
         })
-        return response.data
+        this.error = response.data.message
+        this.isError = false
+        this.dialog = true
       } catch (e) {
         this.error = e.response.data.message
+        this.isError = true
         this.dialog = true
-        return false
       }
     }
   }
@@ -106,6 +114,13 @@ export default {
             @submit.prevent
         >
           <h1 id="form-title">Registration</h1>
+          <v-text-field
+              v-model="fullName"
+              color="deep-purple-darken-1"
+              label="Full Name"
+              :rules="fullNameRules"
+              required>
+          </v-text-field>
           <v-text-field
               v-model="email"
               :rules="emailRules"
@@ -153,7 +168,8 @@ export default {
           {{ error }}
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+          <v-btn v-if="isError" color="primary" block @click="dialog = false">Close</v-btn>
+          <v-btn v-if="!isError" color="primary" block @click="moveToLogin">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

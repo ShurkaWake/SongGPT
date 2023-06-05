@@ -7,9 +7,9 @@ export default createStore({
         user: null,
     },
     mutations: {
-        setJwtToken(state, token, user){
-            state.jwtToken = token
-            state.user = user
+        setJwtToken(state, payload){
+            state.jwtToken = payload.token
+            state.user = payload.user
             state.isAuth = true
         },
         logOut(state) {
