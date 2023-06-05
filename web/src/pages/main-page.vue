@@ -93,11 +93,6 @@ export default {
                 color="deep-purple-darken-1"
                 @click="$store.commit('logOut')"></v-btn>
           </router-link>
-          <router-link to="/song/647e235907190925a0cbde14">
-            <v-btn>
-            song
-            </v-btn>
-          </router-link>
         </v-container>
       </v-navigation-drawer>
       <v-container class="d-flex flex-column align-center justify-space-between">

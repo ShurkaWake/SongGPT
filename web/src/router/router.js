@@ -5,6 +5,7 @@ import loginPage from "@/pages/login-page.vue";
 import registerPage from "@/pages/register-page.vue";
 import addSong from "@/pages/add-song.vue";
 import songDetailsPage from "@/pages/song-details-page.vue";
+import songListPage from "@/pages/song-list-page.vue";
 
 const routes = [
     {
@@ -22,6 +23,10 @@ const routes = [
             {
                 path: "song/:id",
                 component: songDetailsPage
+            },
+            {
+                path: "",
+                component: songListPage
             }
         ]
     },

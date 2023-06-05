@@ -51,7 +51,6 @@ export default {
       if (!results) {
         return
       }
-      console.log(results.user)
       store.commit('setJwtToken', {
         token: results.accessToken,
         user: results.user
