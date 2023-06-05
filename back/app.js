@@ -31,7 +31,7 @@ app.use(express.urlencoded({
 
 
 app.use(cors({
-  origin: ['http://localhost:8080']
+  origin: '*'
 }))
 
 //using user route

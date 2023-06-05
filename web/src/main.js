@@ -7,6 +7,7 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import store from "@/store";
 import router from "@/router/router";
+import vueCookies from 'vue-cookies'
 
 const vuetify = createVuetify({
     components,
@@ -17,4 +18,5 @@ const app = createApp(App)
 app.use(vuetify)
 app.use(router)
 app.use(store)
+app.use(vueCookies, { expires: '1d' })
 app.mount('#app')
