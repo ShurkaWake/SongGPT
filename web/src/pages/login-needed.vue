@@ -22,14 +22,14 @@
               <v-btn
                   variant="text"
                   class="mr-6"
-                  color="teal-lighten-1">
+                  color="deep-purple-darken-1">
                 Log In
               </v-btn>
             </router-link>
             <router-link to="/register">
               <v-btn
                   variant="text"
-                  color="teal-lighten-1">
+                  color="deep-purple-darken-1">
                 Sign Up
               </v-btn>
             </router-link>
